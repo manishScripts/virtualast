@@ -20,10 +20,12 @@ const SignUp = () => {
   const [password, setpassword] = useState("");
 
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
     try {
       let result = await axios.post(
         `${serverUrl}/api/auth/signup`,
@@ -36,9 +38,11 @@ const SignUp = () => {
       );
 
       console.log(result);
+      setLoading(false);
     } catch (error) {
       console.error("Error during registration:", error);
       setError(error.response.data.message);
+      setLoading(false);
     }
   };
   return (
@@ -94,9 +98,9 @@ const SignUp = () => {
           {error.length > 0 && <p className="text-red-500 text-sm">*{error}</p>}
           <button
             type="submit"
-            className="w-full p-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition duration-300 font-bold text-18px cursor-pointer"
+            className="w-full p-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition duration-300 font-bold text-18px cursor-pointer" disabled={loading}
           >
-            Sign Up
+            {loading ? "Loading..." : "Sign Up"}
           </button>
           <p
             className="text-white mt-4 text-18px cursor-pointer"

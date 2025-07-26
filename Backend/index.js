@@ -1,10 +1,11 @@
 import express from 'express';
-import { config } from 'dotenv';
+import dotenv from 'dotenv';
 import { default as connectdb } from './config/db.js';
 import authRouter from './auth.routes.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-config();
+import userRouter from './routes/user.routes.js';
+dotenv.config();
 
 const app=  express();
 const port  = process.env.PORT || 3000;
@@ -15,6 +16,7 @@ app.use(cors({
   credentials: true,
 }))
 app.use("/api/auth",authRouter)
+app.use("/api/user",userRouter)
 
 app.get('/', (req, res) => {
   res.send('Hello World! This is the backend server.');
