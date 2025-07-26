@@ -5,7 +5,8 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { UserDatacontext } from "../assets/Context/UserContext";
+import { UserDatacontext ,setUser,user } from "../assets/Context/UserContext";
+
 const SignUp = () => {
   const [showpass, setShowPass] = useState(false);
   const navigate = useNavigate();
@@ -37,10 +38,12 @@ const SignUp = () => {
         { withCredentials: true }
       );
 
-      console.log(result);
+      setUser(result.data);
       setLoading(false);
+      navigate("/customize")
     } catch (error) {
-      console.error("Error during registration:", error);
+      // console.error("Error during registration:", error);
+      setUser(null);
       setError(error.response.data.message);
       setLoading(false);
     }

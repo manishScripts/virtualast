@@ -6,7 +6,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { UserDatacontext } from "../assets/Context/UserContext";
+import { UserDatacontext,setUser,user } from "../assets/Context/UserContext";
 
 
 const SignIn = () => {
@@ -37,10 +37,11 @@ const SignIn = () => {
         { withCredentials: true }
       );
 
-      console.log(result);
+      setUser(result.data);
       setLoading(false);
+      navigate("/")
     } catch (error) {
-      console.error("Error during Login:", error);
+      setUser(null);
       setLoading(false);  
       setError(error.response.data.message);
     }
